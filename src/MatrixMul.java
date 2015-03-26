@@ -21,18 +21,24 @@ public class MatrixMul {
         ValidMatrixFile file;
         /* Holds the Drone object used to calculate each cell for multiplication */
         Drone drone;
-        /* 2D Array to hold the answer */
-        int[][] answer;
+        /* 2D Array to hold the first matrix */
+        int[][] matrix1;
+        /* 2D Array to hold the second matrix */
+        int[][] matrix2;
 
-        if (args.length != 1) {
-            System.out.println("Usage: MatrixMul input_file");
-        } else {
-            /* Check if the file is valid */
-            file = new ValidMatrixFile(args[0]);
-            if (!file.isValidFile())
-                System.exit(-1);
+        /* Get filename from stdin */
+        System.out.print("Enter input filename>");
+        Scanner in = new Scanner(System.in);
+        String filename = "";
+        if (in.hasNext())
+            filename = in.next();
 
-            //drone = new Drone()
-        }
+        /* Check if the file is valid */
+        file = new ValidMatrixFile(filename);
+
+        //matrix1 = file.getMatrix1();
+        //matrix2 = file.getMatrix2();
+
+        //drone = new Drone()
     }
 }

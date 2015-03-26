@@ -7,28 +7,22 @@
  */
 public class Drone implements Runnable {
     /* Holds the row values */
-    int[] rows;
+    int[] row;
     /* Holds the column values */
-    int[] cols;
+    int[] col;
     /* 2D Array to hold answer */
     int[][] ans;
 
     /**
-     * This is the default constructor for a Drone object
-     */
-    public Drone() {
-    }
-
-    /**
-     * This constructor accepts arguments, which will initialize the Drone objects field values.
+     * This constructor accepts three arguments, which will initialize the Drone objects field values.
      *
-     * @param rows the number of given rows
-     * @param cols the number of given columns
+     * @param row the number of given rows
+     * @param col the number of given columns
      * @param ans the 2D array in which to store the answer
      */
-    public Drone(int[] rows, int[] cols, int[][] ans) {
-        this.rows = rows;
-        this.cols = cols;
+    public Drone(int[] row, int[] col, int[][] ans) {
+        this.row = row;
+        this.col = col;
         this.ans  = ans;
     }
 
@@ -41,13 +35,13 @@ public class Drone implements Runnable {
         /* Holds the sum for the cell */
         int sum = 0;
         /* Check if multiplication can be executed */
-        if (this.rows.length != this.cols.length) {
+        if (this.row.length != this.col.length) {
             System.out.println("Error: Mismatched columns and rows between matrices.");
             System.exit(-1);
         }
         /* Calculate the sum for the cell value */
-        for (int i = 0; i < rows.length; i++) {
-            sum += rows[i] * cols[i];
+        for (int i = 0; i < row.length; i++) {
+            sum += row[i] * col[i];
         }
     }
 }
