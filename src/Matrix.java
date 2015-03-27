@@ -46,4 +46,22 @@ public class Matrix {
             System.out.println();
         }
     }
+
+    /**
+     * This method returns the number of columns in the matrix.
+     *
+     * @return the number of columns
+     */
+    public int getCols() {
+        return rowList.get(0).length;
+    }
+
+    /**
+     * This method returns the number of rows in the matrix.
+     *
+     * @return the number of rows
+     */
+    public int getRows() {
+        return rowList.size();
+    }
 }

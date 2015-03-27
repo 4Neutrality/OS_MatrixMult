@@ -16,8 +16,8 @@ public class MatrixMul {
     public static void main(String[] args) {
         /* Holds ValidMatrixFile object used to test for validity */
         ValidMatrixFile file;
-        /* Holds the Drone object used to calculate each cell for multiplication */
-        Drone drone;
+        /* Holds the Drone objects used to calculate each cell for multiplication */
+        Drone[] drone;
 
         /* Get filename from stdin */
         System.out.print("Enter input filename>");
@@ -32,10 +32,16 @@ public class MatrixMul {
             file.matrix1.printMatrix();
             System.out.println("X");
             file.matrix2.printMatrix();
+
+            /* Generate a drone for each cell in the answer */
+            /* For example, [3x3] x [3x3] = 9 drones for each cell in the answer matrix */
+            //int numDrones = file.matrix1.getCols() * file.matrix2.getRows();
+            //for (int i = 0; i < numDrones); i++)
+            //    drone[i] = new Drone(some stuff here);
+
         } catch (IOException ioe) {
             System.out.println("Error: IOException thrown.");
             System.exit(-1);
         }
-
     }
 }

@@ -77,4 +77,28 @@ public class ValidMatrixFile {
             }
         }
     }
+
+    //WHERE SHOULD WE RUN THESE CHECKS, IT SHOULD BE IN THIS CLASS, RIGHT?
+
+   /* private runTests() {
+        if (fileExists() == false) {
+            System.out.println("Error: File does not exist.");
+            System.exit(-1);
+        }
+        if(hasAsterisk() == false) {
+            System.out.println("Error: Invalid file format, the given file does not contain an asterisk.");
+            System.exit(-1);
+        }
+        if(hasValidValues() == false) {
+            System.out.println("Error: File must contain number values.");
+            System.exit(-1);
+        }
+    }*/
+    /* Test whether multiplication can be done */
+    /* if (# of cols in matrix1) != (# of rows in matrix2) ==> CANNOT multiply */
+    /*
+    if (file.matrix1.getCols() != file.matrix2.getRows()) {
+        System.out.println("Error: Mismatched columns and rows between matrices.");
+        System.exit(-1);
+    }*/
 }
