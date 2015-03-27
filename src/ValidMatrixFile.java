@@ -11,11 +11,11 @@ import java.util.Scanner;
  */
 public class ValidMatrixFile {
     /* The name of the file on which to run tests */
-    String file;
+    private String file;
     /* Holds the first matrix */
-    Matrix matrix1;
+    private Matrix matrix1;
     /* Holds the second matrix */
-    Matrix matrix2;
+    private Matrix matrix2;
 
     /**
      * The default constructor for a ValidMatrixFile object
@@ -28,6 +28,24 @@ public class ValidMatrixFile {
         this.matrix2 = new Matrix();
         readInFile();
         runTests();
+    }
+
+    /**
+     * This is a getter method for the first matrix in the valid matrix file.
+     *
+     * @return the first matrix
+     */
+    public Matrix getMatrix1() {
+        return this.matrix1;
+    }
+
+    /**
+     * This is a getter method for the second matrix in the valid matrix file.
+     *
+     * @return the second matrix
+     */
+    public Matrix getMatrix2() {
+        return this.matrix2;
     }
 
     /**

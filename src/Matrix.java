@@ -57,11 +57,35 @@ public class Matrix {
     }
 
     /**
+     * This method returns an integer array containing column values for a given position.
+     *
+     * @param pos the given position
+     * @return an integer array
+     */
+    public int[] getColArray(int pos) {
+        int[] col = new int[getRows()];
+        for (int i = 0; i < getRows(); i++) {
+            col[i] = this.rowList.get(i)[pos];
+        }
+        return col;
+    }
+
+    /**
      * This method returns the number of rows in the matrix.
      *
      * @return the number of rows
      */
     public int getRows() {
         return rowList.size();
+    }
+
+    /**
+     * This method returns an integer array containing row values for a given position.
+     *
+     * @param pos the desired row
+     * @return an integer array
+     */
+    public int[] getRowArray(int pos) {
+        return rowList.get(pos);
     }
 }

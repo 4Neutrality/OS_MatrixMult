@@ -7,11 +7,11 @@
  */
 public class Drone implements Runnable {
     /* Holds the row values */
-    int[] row;
+    private int[] row;
     /* Holds the column values */
-    int[] col;
+    private int[] col;
     /* 2D Array to hold answer */
-    int[][] ans;
+    private int[][] ans;
 
     /**
      * This constructor accepts three arguments, which will initialize the Drone objects field values.
@@ -34,13 +34,8 @@ public class Drone implements Runnable {
     public void run() {
         /* Holds the sum for the cell */
         int sum = 0;
-        /* Check if multiplication can be executed */
-        if (this.row.length != this.col.length) {
-            System.out.println("Error: Mismatched columns and rows between matrices.");
-            System.exit(-1);
-        }
         /* Calculate the sum for the cell value */
-        for (int i = 0; i < row.length; i++) {
+        for (int i = 0; i < col.length; i++) {
             sum += row[i] * col[i];
         }
     }
