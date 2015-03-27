@@ -1,50 +1,49 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
 /**
- * Created by Kevin on 3/25/2015.
+ * This is the Matrix class and it represents a matrix.
+ *
+ * @author Kevin J James, John Malott
+ * @version 03.26.15
  */
 public class Matrix {
-    /* 2D integer array to hold matrix representation */
-    private int[][] m;
-    /* Holds the number of columns */
-    private int cols;
-    /* Holds the number of rows */
-    private int rows;
+    /* Holds an ArrayList of rows, which contain column values */
+    private ArrayList<int[]> rowList;
 
     /**
      * This is the default constructor for a Matrix object.
-     *
-     * @param cols the number of columns
-     * @param rows the number of columns
      */
-    public Matrix(int cols, int rows) {
-        this.cols = cols;
-        this.rows = rows;
-        this.m = new int[rows][cols];
+    public Matrix() {
+        rowList = new ArrayList<>();
     }
 
     /**
-     * This is a getter method for the number of columns in the matrix object.
+     * This method adds a row to the ArrayList containing values for the Matrix object
      *
-     * @return the number of columns
+     * @param row the given String to be parsed into values
+     * @param size the size of the integer array for the row
      */
-    public int getCols() {
-        return this.cols;
+    public void addRow(String row, int size) {
+        int[] r = new int[size];
+        Scanner s = new Scanner(row);
+        for (int i = 0; i < size; i++) {
+            if (s.hasNextInt()) {
+                r[i] = s.nextInt();
+            }
+        }
+        this.rowList.add(r);
     }
 
     /**
-     * This is a getter method for the number of rows in the matrix object.
-     *
-     * @return the number of rows
+     * This method prints the contents a Matrix object to the screen.
      */
-    public int getRows() {
-        return this.rows;
-    }
-
-    /**
-     * This is a getter method for the 2D array, which holds the matrix integer values.
-     *
-     * @return the matrix 2D array
-     */
-    public int[][] get2DArray() {
-        return this.m;
+    public void printMatrix() {
+        for (int i = 0; i < this.rowList.size(); i++) {
+            for(int x : rowList.get(i)) {
+                System.out.print(x + "\t");
+            }
+            System.out.println();
+        }
     }
 }

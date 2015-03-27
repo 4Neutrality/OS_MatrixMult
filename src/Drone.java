@@ -2,7 +2,7 @@
  * This is the drone class, and it will serve as a single thread in the matrix multiplication
  * and will solve a single cell.
  *
- * @author Kevin J James
+ * @author Kevin J James, John Malott
  * @version 03.25.15
  */
 public class Drone implements Runnable {

@@ -1,13 +1,10 @@
-import java.io.*;
-import java.nio.Buffer;
-import java.util.ArrayList;
-import java.util.NoSuchElementException;
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
  * This is the MatrixMul class and it serves as a Driver class for the program.
  *
- * @author Kevin J James
+ * @author Kevin J James, John Malott
  * @version 03.25.15
  */
 public class MatrixMul {
@@ -21,10 +18,6 @@ public class MatrixMul {
         ValidMatrixFile file;
         /* Holds the Drone object used to calculate each cell for multiplication */
         Drone drone;
-        /* 2D Array to hold the first matrix */
-        int[][] matrix1;
-        /* 2D Array to hold the second matrix */
-        int[][] matrix2;
 
         /* Get filename from stdin */
         System.out.print("Enter input filename>");
@@ -33,12 +26,16 @@ public class MatrixMul {
         if (in.hasNext())
             filename = in.next();
 
-        /* Check if the file is valid */
-        file = new ValidMatrixFile(filename);
+        try {
+            /* Read in file and print matrices */
+            file = new ValidMatrixFile(filename);
+            file.matrix1.printMatrix();
+            System.out.println("X");
+            file.matrix2.printMatrix();
+        } catch (IOException ioe) {
+            System.out.println("Error: IOException thrown.");
+            System.exit(-1);
+        }
 
-        //matrix1 = file.getMatrix1();
-        //matrix2 = file.getMatrix2();
-
-        //drone = new Drone()
     }
 }

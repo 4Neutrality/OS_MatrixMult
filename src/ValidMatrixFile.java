@@ -1,10 +1,13 @@
-import java.io.*;
-import java.util.AbstractCollection;
-import java.util.NoSuchElementException;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
- * Created by Kevin on 3/25/2015.
+ * This is the ValidMatrixFile class and it represents a file with the correct contents for matrix multiplication.
+ *
+ * @author Kevin J James, John Malott
+ * @version 03.27.15
  */
 public class ValidMatrixFile {
     /* The name of the file on which to run tests */
@@ -19,111 +22,54 @@ public class ValidMatrixFile {
      *
      * @param filename the given filename
      */
-    public ValidMatrixFile(String filename) {
+    public ValidMatrixFile(String filename) throws IOException {
         this.file = filename;
-        initMatrices();
-        canBeMultiplied();
+        this.matrix1 = new Matrix();
+        this.matrix2 = new Matrix();
+        readInFile();
     }
 
-    public Matrix getMatrix1() {
+    private void readInFile() throws IOException {
+        /* BufferedReader to read line by line */
         BufferedReader br;
+        /* Scanner to parse line */
         Scanner s;
-        for (int r = 0; r < matrix1.getRows(); r++) {
-            for (int c = 0; c < matrix1.getCols(); c++) {
-               try {
-                   br = new BufferedReader(new FileReader(this.file));
-                   try {
-                       s = new Scanner(br.readLine());
-                   } catch (IOException ioe) {
-                       System.exit(-1);
-                   }
-               } catch (FileNotFoundException fnfe) {
-                   System.exit(-1);
-               }
+        /* Strings to hold the line, and token of each line */
+        String line, token;
+        /* Holds the index of the column */
+        int counter;
+
+        br = new BufferedReader(new FileReader(this.file));
+        /* Get the first line */
+        line = br.readLine();
+
+        /* Holds the flag determining if we're before the asterisk */
+        boolean bAstk = true;
+        /* Holds the flag determining whether the asterisk is passed */
+        boolean pAstk = false;
+
+        while (line != null) {
+            /* Reset counter to zero */
+            counter = 0;
+            /* Parse the line into tokens */
+            s = new Scanner(line);
+            while (s.hasNext()) {
+                token = s.next();
+                /* Count each token */
+                counter++;
+                if (token.equals("*"))
+                    bAstk = false;
             }
-        }
-        return matrix1;
-    }
-
-    public Matrix getMatrix2() {
-        return matrix2;
-    }
-
-    /**
-     * This method checks whether the given file exists, is empty, holds relevant values, and
-     * is in the appropriate format. This method initializes the Matrix field objects.
-     */
-    private void initMatrices() {
-        /* BufferedReader used for reading the file */
-        BufferedReader br;
-        /* Scanner used for parsing each line */
-        Scanner s;
-        /* Holds number of columns */
-        int cols = 0;
-        /* Holds the number of rows */
-        int rows = 0;
-        /* Holds an iterator */
-        int i = 0;
-
-        /* Test whether file exists */
-        try {
-            br = new BufferedReader(new FileReader(this.file));
-            /* Test whether the file contains anything */
-            try {
-                String line = br.readLine();
-                while (line != null) {
-                    /* Get the number of cols */
-                    cols = i;
-                    /* Increment rows by one */
-                    rows++;
-                    /* Reset iterator to zero */
-                    i = 0;
-
-                    s = new Scanner(line);
-                    while (s.hasNext()) {
-                        /* Test whether file holds relevant values */
-                        try {
-                            String val = s.next();
-                            if (!val.equals("*")) {
-                                /* Count the elements of the matrix */
-                                i++;
-                                Integer.parseInt(val);
-                            } else {
-                                /* Subtract one from rows */
-                                rows--;
-                                /* Construct the first matrix */
-                                matrix1 = new Matrix(rows, cols);
-                                /* Reset row counter to zero */
-                                rows = 0;
-                            }
-                        } catch (NoSuchElementException e) {
-                            System.out.println("Error: Invalid file, must hold integer values.");
-                            System.exit(-1);
-                        }
-                    }
-                    /* Get the next line */
-                    line = br.readLine();
-                }
-                /* Construct the second matrix */
-                matrix2 = new Matrix(rows, cols);
-            } catch(IOException ioe) {
-                System.out.println("Error: IOException thrown: file is empty.");
-                System.exit(-1);
+            if (bAstk) { //Construct matrix1 before asterisk
+                this.matrix1.addRow(line, counter);
+                line = br.readLine();
+            } else if (pAstk){ //Construct matrix2 after asterisk
+                this.matrix2.addRow(line, counter);
+                line = br.readLine();
+            } else {
+                line = br.readLine();
+                pAstk = true;
             }
-        } catch (FileNotFoundException fnfe) {
-            System.out.println("Error: File not found.");
-            System.exit(-1);
-        }
-    }
-
-    /**
-     * This method checks if the two matrices can be multiplied. If not, it prints an error message and exits.
-     */
-    private void canBeMultiplied() {
-         /* (# of cols in matrix1) != (# of rows in matrix2) ==> cannot multiply */
-        if (matrix1.getCols() != matrix2.getRows()) {
-            System.out.println("Error: Mismatched columns and rows between matrices.");
-            System.exit(-1);
         }
     }
 }
