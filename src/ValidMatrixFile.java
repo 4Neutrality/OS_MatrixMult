@@ -29,6 +29,11 @@ public class ValidMatrixFile {
         readInFile();
     }
 
+    /**
+     * This method attempts to read in the file, using the file field, and assigns values to the matrix fields.
+     *
+     * @throws IOException
+     */
     private void readInFile() throws IOException {
         /* BufferedReader to read line by line */
         BufferedReader br;
