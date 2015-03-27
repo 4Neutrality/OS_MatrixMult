@@ -27,6 +27,7 @@ public class ValidMatrixFile {
         this.matrix1 = new Matrix();
         this.matrix2 = new Matrix();
         readInFile();
+        runTests();
     }
 
     /**
@@ -78,27 +79,65 @@ public class ValidMatrixFile {
         }
     }
 
-    //WHERE SHOULD WE RUN THESE CHECKS, IT SHOULD BE IN THIS CLASS, RIGHT?
+    /**
+     * This method performs tests on the given input file.
+     *
+     * @throws IOException
+     */
+    private void runTests() throws IOException {
+        hasAsterisk();
+        hasValidValues();
+        isBalanced();
+    }
 
-   /* private runTests() {
-        if (fileExists() == false) {
-            System.out.println("Error: File does not exist.");
+    /**
+     * This method checks to see if the given file has an asterisk, which separates the two matrices. If no
+     * such separator exists, then an error message will print and it will exit.
+     */
+    private void hasAsterisk() {
+        if (this.matrix2.getRows() == 0) { //matrix2 was never assigned any values
+            System.out.println("Error: File did not have an '*' separator.");
             System.exit(-1);
         }
-        if(hasAsterisk() == false) {
-            System.out.println("Error: Invalid file format, the given file does not contain an asterisk.");
+    }
+
+    /**
+     * This method checks to see if the given file holds valid matrix values, which should be integers. If not,
+     * it prints an error message and exits.
+     */
+    private void hasValidValues() throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(this.file));
+        String line = br.readLine();
+        Scanner s = new Scanner(line);
+        String token;
+        /* Read through file */
+        while (line != null) {
+            while (s.hasNext()) {
+                token = s.next();
+                /* Really, really bad way of doing this check */
+                /* If you can improve, please do */
+                try {
+                    Integer.parseInt(token);
+                } catch (NumberFormatException nfe) {
+                    System.out.println("Error: File must hold integer values for matrix computation.");
+                    System.exit(-1);
+                }
+            }
+            line = br.readLine();
+        }
+
+    }
+
+    /**
+     * This method checks to see is matrix1 has an equal number of columns to matrix1 number of rows. If
+     * this is not the case, then multiplication cannot be executed and an error message will be printed
+     * and then it will exit.
+     */
+    private void isBalanced() {
+        /* if (# of cols in matrix1) != (# of rows in matrix2) ==> CANNOT multiply */
+        if (this.matrix1.getCols() != this.matrix2.getRows()) {
+            System.out.println("Error: Mismatched columns and rows between matrices.");
             System.exit(-1);
         }
-        if(hasValidValues() == false) {
-            System.out.println("Error: File must contain number values.");
-            System.exit(-1);
-        }
-    }*/
-    /* Test whether multiplication can be done */
-    /* if (# of cols in matrix1) != (# of rows in matrix2) ==> CANNOT multiply */
-    /*
-    if (file.matrix1.getCols() != file.matrix2.getRows()) {
-        System.out.println("Error: Mismatched columns and rows between matrices.");
-        System.exit(-1);
-    }*/
+    }
 }
