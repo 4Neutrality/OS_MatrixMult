@@ -6,6 +6,10 @@
  * @version 03.25.15
  */
 public class Drone implements Runnable {
+    /* Holds the row number */
+    private int rNum;
+    /* Holds the column number */
+    private int cNum;
     /* Holds the row values */
     private int[] row;
     /* Holds the column values */
@@ -20,7 +24,9 @@ public class Drone implements Runnable {
      * @param col the number of given columns
      * @param ans the 2D array in which to store the answer
      */
-    public Drone(int[] row, int[] col, int[][] ans) {
+    public Drone(int rNum, int cNum, int[] row, int[] col, int[][] ans) {
+        this.rNum = rNum;
+        this.cNum = cNum;
         this.row = row;
         this.col = col;
         this.ans  = ans;
@@ -38,5 +44,6 @@ public class Drone implements Runnable {
         for (int i = 0; i < col.length; i++) {
             sum += row[i] * col[i];
         }
+        //ans[?][?] = sum
     }
 }

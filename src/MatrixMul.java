@@ -42,8 +42,14 @@ public class MatrixMul {
             /* For example, [3x3] x [3x3] = 9 drones for each cell in the answer matrix */
             int numDrones = file.getMatrix1().getRows() * file.getMatrix2().getCols();
             drone = new Drone[numDrones];
-            for (int i = 0; i < numDrones; i++)
-                drone[i] = new Drone(file.getMatrix1().getRowArray(i), file.getMatrix2().getColArray(i), ans);
+            //for (int i = 0; i < numDrones; i++)
+            //    drone[i] = new Drone(file.getMatrix1().getRowArray(i%3), file.getMatrix2().getColArray(i%3), ans);
+            /* Spawn off threads for execution */
+            //Thread thread;
+            //for (Drone d : drone) {
+            //    thread = new Thread(d);
+            //    thread.start();
+            //}
 
         } catch (IOException ioe) {
             System.out.println("Error: IOException thrown.");
