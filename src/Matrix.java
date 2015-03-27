@@ -41,7 +41,7 @@ public class Matrix {
     public void printMatrix() {
         for (int i = 0; i < this.rowList.size(); i++) {
             for(int x : rowList.get(i)) {
-                System.out.print(x + "\t");
+                System.out.print("\t" + x + "\t");
             }
             System.out.println();
         }

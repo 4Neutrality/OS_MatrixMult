@@ -32,6 +32,7 @@ public class MatrixMul {
             file.matrix1.printMatrix();
             System.out.println("X");
             file.matrix2.printMatrix();
+            System.out.println("=");
 
             /* Generate a drone for each cell in the answer */
             /* For example, [3x3] x [3x3] = 9 drones for each cell in the answer matrix */
