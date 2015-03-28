@@ -22,8 +22,8 @@ public class Drone implements Runnable {
      *
      * @param rNum the row number
      * @param cNum the column number
-     * @param row the number of given rows
-     * @param col the number of given columns
+     * @param row a single row 
+     * @param col a single column
      * @param ans the 2D array in which to store the answer
      */
     public Drone(int rNum, int cNum, int[] row, int[] col, int[][] ans) {

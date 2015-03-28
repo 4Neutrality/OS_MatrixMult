@@ -1,6 +1,8 @@
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+//Exceptions
+import java.io.IOException;
+import java.io.FileNotFoundException;
 
 /**
  * This is the MatrixMul class and it serves as a Driver class for the program.
@@ -9,6 +11,11 @@ import java.util.Scanner;
  * @version 03.25.15
  */
 public class MatrixMul {
+    //Exit status for program if something bad happen
+    static final int ERROR = -1;
+    static final int ZERO = 0;
+    static final int NO_ARGS = 0;
+    static final int FIRST_ELEMENT = 0;
     /**
      * This is the main method and it will perform the relevant methods associated with matrix multiplication.
      *
@@ -21,6 +28,12 @@ public class MatrixMul {
         ArrayList<Drone> drones = new ArrayList<>();
         /* Holds the answer to the matrix multiplication */
         int[][] ans;
+        
+        //Wrong number of args
+        if(args.length != NO_ARGS){
+            System.out.println("Usage: MatrixMul");
+            System.exit(ERROR);
+        }
 
         /* Get filename from stdin */
         System.out.print("Enter input filename>");
@@ -37,12 +50,12 @@ public class MatrixMul {
             file.getMatrix2().printMatrix();
             System.out.println("=");
 
-            /* Initialize the answer array */
-            ans = new int[file.getMatrix1().getRows()][file.getMatrix2().getCols()];
             /* Generate a drone for each cell in the answer */
             /* For example, [3x3] x [3x3] = 9 drones for each cell in the answer matrix */
             int rows = file.getMatrix1().getRows();
             int cols = file.getMatrix2().getCols();
+            /* Initialize the answer array */
+            ans = new int[rows][cols];
             for (int r = 0; r < rows; r++) {
                 for (int c = 0; c < cols; c++) {
                     drones.add(new Drone(r, c, file.getMatrix1().getRowArray(r), file.getMatrix2().getColArray(c), ans));
@@ -52,27 +65,27 @@ public class MatrixMul {
             /* Spawn off threads for execution */
             Thread thread;
             for (Drone d : drones) {
-                thread = new Thread(d);
-                thread.start();
-                try {
-                    /* Wait for threads to finish */
-                    thread.join();
-                } catch (InterruptedException ie) {
-                    System.out.println("Error: Thread was interrupted.");
-                    System.exit(-1);
-                }
+               thread = new Thread(d);
+               thread.start();
             }
             /* Print answer after threads have finished */
             for (int i = 0; i < ans.length; i++) {
-                for (int k = 0; k < ans[0].length; k++) {
+                for (int k = 0; k < ans[FIRST_ELEMENT].length; k++) {
                     System.out.print("\t" + ans[i][k] + "\t");
                 }
                 System.out.println();
             }
 
+
+        } catch (InvalidMatrixException  ioe) {
+            System.out.println(ioe);
+            System.exit(ERROR);
+        } catch (FileNotFoundException  ioe) {
+            System.out.println("Error: " + filename + " (no such file!)");
+            System.exit(ERROR);
         } catch (IOException ioe) {
-            System.out.println("Error: IOException thrown.");
-            System.exit(-1);
+            System.out.println("Error: " + ioe);
+            System.exit(ERROR);
         }
     }
 }

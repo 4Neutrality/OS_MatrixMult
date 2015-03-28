@@ -53,7 +53,14 @@ public class Matrix {
      * @return the number of columns
      */
     public int getCols() {
-        return rowList.get(0).length;
+        int rowLength = rowList.get(MatrixMul.FIRST_ELEMENT).length;
+
+        for(int i = 1; i < getRows(); i++){
+            if(rowLength != rowList.get(i).length)
+                rowLength = MatrixMul.ERROR;
+        }
+
+        return rowLength;
     }
 
     /**

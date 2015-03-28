@@ -74,15 +74,14 @@ public class ValidMatrixFile {
 
         while (line != null) {
             /* Reset counter to zero */
-            counter = 0;
+            counter = MatrixMul.ZERO;
             /* Parse the line into tokens */
             s = new Scanner(line);
             while (s.hasNext()) {
                 token = s.next();
+                bAstk = checkWhichMatrix(token,counter,bAstk);
                 /* Count each token */
                 counter++;
-                if (token.equals("*"))
-                    bAstk = false;
             }
             if (bAstk) { //Construct matrix1 before asterisk
                 this.matrix1.addRow(line, counter);
@@ -100,10 +99,26 @@ public class ValidMatrixFile {
     /**
      * This method performs tests on the given input file.
      *
+     * @param before First matrix 
+     * @param after Second matrix
+     */
+    private boolean checkWhichMatrix(String token, int counter, 
+                                     boolean bAstk)  throws IOException{
+
+       if (token.equals("*") && counter == MatrixMul.ZERO)
+           bAstk = false;
+       else if(token.equals("*"))
+           throw new InvalidMatrixException("Missing '*' separater");
+       return bAstk;
+    }
+
+    /**
+     * This method performs tests on the given input file.
+     *
      * @throws IOException
      */
     private void runTests() throws IOException {
-        hasAsterisk();
+        checkForTopBotMatrix();
         hasValidValues();
         isBalanced();
     }
@@ -112,10 +127,11 @@ public class ValidMatrixFile {
      * This method checks to see if the given file has an asterisk, which separates the two matrices. If no
      * such separator exists, then an error message will print and it will exit.
      */
-    private void hasAsterisk() {
-        if (this.matrix2.getRows() == 0) { //matrix2 was never assigned any values
-            System.out.println("Error: File did not have an '*' separator.");
-            System.exit(-1);
+    private void checkForTopBotMatrix() throws IOException{
+        if (this.matrix1.getRows() == MatrixMul.ZERO) { //matrix1 was never assigned any values
+            throw new InvalidMatrixException("First Matrix is missing");
+        }else  if (this.matrix2.getRows() == MatrixMul.ZERO) { //matrix2 was never assigned any values
+            throw new InvalidMatrixException("Second Matrix is missing");
         }
     }
 
@@ -137,8 +153,7 @@ public class ValidMatrixFile {
                 try {
                     Integer.parseInt(token);
                 } catch (NumberFormatException nfe) {
-                    System.out.println("Error: File must hold integer values for matrix computation.");
-                    System.exit(-1);
+                    throw new InvalidMatrixException("File must hold integer values for matrix computation");
                 }
             }
             line = br.readLine();
@@ -151,11 +166,10 @@ public class ValidMatrixFile {
      * this is not the case, then multiplication cannot be executed and an error message will be printed
      * and then it will exit.
      */
-    private void isBalanced() {
+    private void isBalanced() throws IOException{
         /* if (# of cols in matrix1) != (# of rows in matrix2) ==> CANNOT multiply */
         if (this.matrix1.getCols() != this.matrix2.getRows()) {
-            System.out.println("Error: Mismatched columns and rows between matrices.");
-            System.exit(-1);
+            throw new InvalidMatrixException("Mismatched columns and rows between matrices.");
         }
     }
 }
