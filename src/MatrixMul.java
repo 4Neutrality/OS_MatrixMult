@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -17,7 +18,7 @@ public class MatrixMul {
         /* Holds ValidMatrixFile object used to test for validity */
         ValidMatrixFile file;
         /* Holds the Drone objects used to calculate each cell for multiplication */
-        Drone[] drone;
+        ArrayList<Drone> drones = new ArrayList<>();
         /* Holds the answer to the matrix multiplication */
         int[][] ans;
 
@@ -40,16 +41,33 @@ public class MatrixMul {
             ans = new int[file.getMatrix1().getRows()][file.getMatrix2().getCols()];
             /* Generate a drone for each cell in the answer */
             /* For example, [3x3] x [3x3] = 9 drones for each cell in the answer matrix */
-            int numDrones = file.getMatrix1().getRows() * file.getMatrix2().getCols();
-            drone = new Drone[numDrones];
-            //for (int i = 0; i < numDrones; i++)
-            //    drone[i] = new Drone(file.getMatrix1().getRowArray(i%3), file.getMatrix2().getColArray(i%3), ans);
+            int rows = file.getMatrix1().getRows();
+            int cols = file.getMatrix2().getCols();
+            for (int r = 0; r < rows; r++) {
+                for (int c = 0; c < cols; c++) {
+                    drones.add(new Drone(r, c, file.getMatrix1().getRowArray(r), file.getMatrix2().getColArray(c), ans));
+                }
+            }
+
             /* Spawn off threads for execution */
-            //Thread thread;
-            //for (Drone d : drone) {
-            //    thread = new Thread(d);
-            //    thread.start();
-            //}
+            Thread thread;
+            for (Drone d : drones) {
+                thread = new Thread(d);
+                thread.start();
+                try {
+                    thread.join();
+                } catch (InterruptedException ie) {
+                    System.out.println("Error: Thread was interrupted.");
+                    System.exit(-1);
+                }
+            }
+
+            for (int i = 0; i < ans.length; i++) {
+                for (int k = 0; k < ans[0].length; k++) {
+                    System.out.print("\t" + ans[i][k] + "\t");
+                }
+                System.out.println();
+            }
 
         } catch (IOException ioe) {
             System.out.println("Error: IOException thrown.");

@@ -18,8 +18,10 @@ public class Drone implements Runnable {
     private int[][] ans;
 
     /**
-     * This constructor accepts three arguments, which will initialize the Drone objects field values.
+     * This constructor accepts five arguments, which will initialize the Drone objects field values.
      *
+     * @param rNum the row number
+     * @param cNum the column number
      * @param row the number of given rows
      * @param col the number of given columns
      * @param ans the 2D array in which to store the answer
@@ -41,9 +43,13 @@ public class Drone implements Runnable {
         /* Holds the sum for the cell */
         int sum = 0;
         /* Calculate the sum for the cell value */
-        for (int i = 0; i < col.length; i++) {
-            sum += row[i] * col[i];
+        for (int i = 0; i < this.col.length; i++) {
+            sum += this.row[i] * this.col[i];
         }
-        //ans[?][?] = sum
+        setAns(sum);
+    }
+
+    private synchronized void setAns(int sum) {
+        this.ans[this.rNum][this.cNum] = sum;
     }
 }
