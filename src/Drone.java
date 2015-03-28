@@ -46,10 +46,6 @@ public class Drone implements Runnable {
         for (int i = 0; i < this.col.length; i++) {
             sum += this.row[i] * this.col[i];
         }
-        setAns(sum);
-    }
-
-    private synchronized void setAns(int sum) {
         this.ans[this.rNum][this.cNum] = sum;
     }
 }

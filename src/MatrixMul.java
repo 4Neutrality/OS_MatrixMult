@@ -55,13 +55,14 @@ public class MatrixMul {
                 thread = new Thread(d);
                 thread.start();
                 try {
+                    /* Wait for threads to finish */
                     thread.join();
                 } catch (InterruptedException ie) {
                     System.out.println("Error: Thread was interrupted.");
                     System.exit(-1);
                 }
             }
-
+            /* Print answer after threads have finished */
             for (int i = 0; i < ans.length; i++) {
                 for (int k = 0; k < ans[0].length; k++) {
                     System.out.print("\t" + ans[i][k] + "\t");
