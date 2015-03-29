@@ -79,6 +79,7 @@ public class ValidMatrixFile {
             s = new Scanner(line);
             while (s.hasNext()) {
                 token = s.next();
+                hasValidValues(token);
                 bAstk = checkWhichMatrix(token,counter,bAstk);
                 /* Count each token */
                 counter++;
@@ -108,7 +109,7 @@ public class ValidMatrixFile {
        if (token.equals("*") && counter == MatrixMul.ZERO)
            bAstk = false;
        else if(token.equals("*"))
-           throw new InvalidMatrixException("Missing '*' separater");
+           throw new InvalidMatrixException("'*' not on line by itself.");
        return bAstk;
     }
 
@@ -119,7 +120,6 @@ public class ValidMatrixFile {
      */
     private void runTests() throws IOException {
         checkForTopBotMatrix();
-        hasValidValues();
         isBalanced();
     }
 
@@ -131,7 +131,7 @@ public class ValidMatrixFile {
         if (this.matrix1.getRows() == MatrixMul.ZERO) { //matrix1 was never assigned any values
             throw new InvalidMatrixException("First Matrix is missing");
         }else  if (this.matrix2.getRows() == MatrixMul.ZERO) { //matrix2 was never assigned any values
-            throw new InvalidMatrixException("Second Matrix is missing");
+            throw new InvalidMatrixException("Second Matrix or '*' is missing");
         }
     }
 
@@ -139,24 +139,15 @@ public class ValidMatrixFile {
      * This method checks to see if the given file holds valid matrix values, which should be integers. If not,
      * it prints an error message and exits.
      */
-    private void hasValidValues() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(this.file));
-        String line = br.readLine();
-        Scanner s = new Scanner(line);
-        String token;
-        /* Read through file */
-        while (line != null) {
-            while (s.hasNext()) {
-                token = s.next();
-                /* Really, really bad way of doing this check */
-                /* If you can improve, please do */
-                try {
-                    Integer.parseInt(token);
-                } catch (NumberFormatException nfe) {
-                    throw new InvalidMatrixException("File must hold integer values for matrix computation");
-                }
+    private void hasValidValues(String token) throws IOException {
+        /* If you can improve, please do */
+        /* Really, really bad way of doing this check */
+        try {
+            if(!token.equals("*")){
+              Integer.parseInt(token);
             }
-            line = br.readLine();
+        } catch (NumberFormatException nfe) {
+             throw new InvalidMatrixException(token + " is not a integer value for matrix computation");
         }
 
     }
