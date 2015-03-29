@@ -5,6 +5,7 @@ import java.util.concurrent.Executors;
 //Exceptions
 import java.io.IOException;
 import java.io.FileNotFoundException;
+import java.util.concurrent.RejectedExecutionException;
 
 /**
  * This is the MatrixMul class and it serves as a Driver class for the program.
@@ -81,6 +82,11 @@ public class MatrixMul {
             }
 
 
+
+
+        } catch (RejectedExecutionException  ioe) {
+            System.out.println("Error: Pool couldn't be executed");
+            System.exit(ERROR);
         } catch (InvalidMatrixException  ioe) {
             System.out.println(ioe);
             System.exit(ERROR);
