@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 //Exceptions
 import java.io.IOException;
 import java.io.FileNotFoundException;
@@ -28,6 +30,8 @@ public class MatrixMul {
         ArrayList<Drone> drones = new ArrayList<>();
         /* Holds the answer to the matrix multiplication */
         int[][] ans;
+        //thread pool
+        ExecutorService pool = Executors.newCachedThreadPool();
         
         //Wrong number of args
         if(args.length != NO_ARGS){
@@ -63,11 +67,11 @@ public class MatrixMul {
             }
 
             /* Spawn off threads for execution */
-            Thread thread;
             for (Drone d : drones) {
-               thread = new Thread(d);
-               thread.start();
+               pool.execute(d);
             }
+            pool.shutdown();
+
             /* Print answer after threads have finished */
             for (int i = 0; i < ans.length; i++) {
                 for (int k = 0; k < ans[FIRST_ELEMENT].length; k++) {
