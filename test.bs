@@ -1,0 +1,139 @@
+#!/bin/bash
+clear
+
+#******************************************************************************
+#                                 MATRIX TESTER
+#******************************************************************************
+# Test the MatrixMul Program.
+#
+# author: Kevin James, John Malott
+# version: 3/27/15
+#******************************************************************************
+
+
+#******************************************************************************
+#                                   VARIABLES                                 
+#******************************************************************************
+# Standard ouput file
+FILE="test.txt"
+# Counter for test success rate
+FAIL=0
+SUCCESS=0
+
+#Names for the test
+TEST1="3x3 * 3x3"
+TEST2="3x3 * 4x3"
+TEST3="No asterisk"
+TEST4="Letters"
+TEST5="4x4 * 4x3"
+TEST6="Matrix 1 Missing"
+TEST7="Matrix 2 Missing"
+TEST8="Uneven Rows"
+TEST9="= separator"
+TEST10="File doesn't exist"
+
+#Error codes
+PASS=0
+ERROR=1
+MATRIX_ERROR=2
+FILE_ERROR=3
+POOL_ERROR=4
+
+
+#******************************************************************************
+#                                 FUNCTIONS
+#******************************************************************************
+
+#------------------------------------------------------------------------------
+# Check the exit status of test and increment variable as such.
+#
+# param 1 Exit status
+# param 2 Excepted Error Status
+# param 3 Name of test
+#------------------------------------------------------------------------------
+function check_success () {
+    if [ $1 == $2 ];then
+        ((SUCCESS=SUCCESS+1))
+        echo "SUCCESS $3"
+    else
+        ((FAIL=FAIL+1))
+        echo "FAIL $3"
+    fi
+}
+#END---------------------------------------------------------------------------
+
+#******************************************************************************
+#                                   CODE
+#******************************************************************************
+
+#-------------------------------START TEST------------------------------------#
+echo "------Starting Test------"
+cd src
+
+#------------------------------TEST 3x3 * 3x3---------------------------------#
+java MatrixMul  << EOF 
+../Test/in1.txt  
+EOF
+check_success $? $PASS "$TEST1" 
+
+#------------------------------TEST 3x3 * 4x3---------------------------------#
+java MatrixMul  << EOF 
+../Test/bad1.txt  
+EOF
+check_success $? $MATRIX_ERROR "$TEST2" 
+
+#--------------------------TEST Asterisk Missing------------------------------#
+java MatrixMul  << EOF 
+../Test/bad2.txt  
+EOF
+check_success $? $MATRIX_ERROR "$TEST3" 
+
+#-------------------------------TEST Letters----------------------------------#
+java MatrixMul  << EOF 
+../Test/bad3.txt  
+EOF
+check_success $? $MATRIX_ERROR "$TEST4" 
+
+#-------------------------------TEST 4x4 4x3----------------------------------#
+java MatrixMul  << EOF 
+../Test/in2.txt  
+EOF
+check_success $? $PASS "$TEST5" 
+
+#---------------------------TEST Matrix 1 Missing-----------------------------#
+java MatrixMul  << EOF 
+../Test/Matrix1.txt  
+EOF
+check_success $? $MATRIX_ERROR "$TEST6" 
+
+#---------------------------TEST Matrix 2 Missing-----------------------------#
+java MatrixMul  << EOF 
+../Test/Matrix2.txt  
+EOF
+check_success $? $MATRIX_ERROR "$TEST7" 
+
+#-----------------------------TEST Uneven Rows--------------------------------#
+java MatrixMul  << EOF 
+../Test/uneven.txt  
+EOF
+check_success $? $MATRIX_ERROR "$TEST8" 
+
+#-----------------------------TEST = Separator--------------------------------#
+java MatrixMul  << EOF 
+../Test/missing.txt  
+EOF
+check_success $? $MATRIX_ERROR "$TEST9" 
+
+#-------------------------------TEST Fake File--------------------------------#
+java MatrixMul  << EOF 
+../Test/fake.txt  
+EOF
+check_success $? $FILE_ERROR "$TEST10" 
+
+#**********************************END TEST***********************************#
+echo " "
+echo " "
+echo "SUCCESS: $SUCCESS"
+echo "FAIL: $FAIL"
+cd ../
+

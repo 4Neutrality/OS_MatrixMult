@@ -15,7 +15,10 @@ import java.util.concurrent.RejectedExecutionException;
  */
 public class MatrixMul {
     //Exit status for program if something bad happen
-    static final int ERROR = -1;
+    static final int ERROR = 1;
+    static final int MATRIX_ERROR = 2;
+    static final int FILE_ERROR = 3;
+    static final int POOL_ERROR = 4;
     static final int ZERO = 0;
     static final int NO_ARGS = 0;
     static final int FIRST_ELEMENT = 0;
@@ -85,16 +88,16 @@ public class MatrixMul {
 
 
         } catch (RejectedExecutionException  ioe) {
-            System.out.println("Error: Pool couldn't be executed");
-            System.exit(ERROR);
+            System.out.println("\nError: Pool couldn't be executed");
+            System.exit(POOL_ERROR);
         } catch (InvalidMatrixException  ioe) {
-            System.out.println(ioe);
-            System.exit(ERROR);
+            System.out.println("\n" + ioe);
+            System.exit(MATRIX_ERROR);
         } catch (FileNotFoundException  ioe) {
-            System.out.println("Error: " + filename + " (no such file!)");
-            System.exit(ERROR);
+            System.out.println("\nError: " + filename + " (no such file!)");
+            System.exit(FILE_ERROR);
         } catch (IOException ioe) {
-            System.out.println("Error: " + ioe);
+            System.out.println("\nError: " + ioe);
             System.exit(ERROR);
         }
     }
