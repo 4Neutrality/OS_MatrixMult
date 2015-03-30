@@ -14,7 +14,7 @@ import java.util.concurrent.RejectedExecutionException;
  * @version 03.25.15
  */
 public class MatrixMul {
-    //Exit status for program if something bad happen
+    //Exit status for program if something bad happens
     static final int ERROR = 1;
     static final int MATRIX_ERROR = 2;
     static final int FILE_ERROR = 3;
@@ -34,7 +34,7 @@ public class MatrixMul {
         ArrayList<Drone> drones = new ArrayList<>();
         /* Holds the answer to the matrix multiplication */
         int[][] ans;
-        //thread pool
+        /* Create the thread pool*/
         ExecutorService pool = Executors.newCachedThreadPool();
         
         //Wrong number of args

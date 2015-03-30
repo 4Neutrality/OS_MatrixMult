@@ -51,7 +51,7 @@ public class ValidMatrixFile {
     /**
      * This method attempts to read in the file, using the file field, and assigns values to the matrix fields.
      *
-     * @throws IOException
+     * @throws InvalidMatrixException
      */
     private void readInFile() throws IOException {
         /* BufferedReader to read line by line */
@@ -102,9 +102,10 @@ public class ValidMatrixFile {
      *
      * @param before First matrix 
      * @param after Second matrix
+     * @throws InvalidMatrixException
      */
     private boolean checkWhichMatrix(String token, int counter, 
-                                     boolean bAstk)  throws IOException{
+                                     boolean bAstk)  throws InvalidMatrixException{
 
        if (token.equals("*") && counter == MatrixMul.ZERO)
            bAstk = false;
@@ -116,9 +117,9 @@ public class ValidMatrixFile {
     /**
      * This method performs tests on the given input file.
      *
-     * @throws IOException
+     * @throws InvalidMatrixException
      */
-    private void runTests() throws IOException {
+    private void runTests() throws InValidMatrixException{
         checkForTopBotMatrix();
         isBalanced();
     }
@@ -126,28 +127,30 @@ public class ValidMatrixFile {
     /**
      * This method checks to see if the given file has an asterisk, which separates the two matrices. If no
      * such separator exists, then an error message will print and it will exit.
+     *
+     * @throws InvalidMatrixException
      */
-    private void checkForTopBotMatrix() throws IOException{
+    private void checkForTopBotMatrix() throws InvalidMatrixException{
         if (this.matrix1.getRows() == MatrixMul.ZERO) { //matrix1 was never assigned any values
-            throw new InvalidMatrixException("First Matrix is missing");
+            throw new InvalidMatrixException("First Matrix is missing.");
         }else  if (this.matrix2.getRows() == MatrixMul.ZERO) { //matrix2 was never assigned any values
-            throw new InvalidMatrixException("Second Matrix or '*' is missing");
+            throw new InvalidMatrixException("Second Matrix or '*' is missing.");
         }
     }
 
     /**
      * This method checks to see if the given file holds valid matrix values, which should be integers. If not,
      * it prints an error message and exits.
+     *
+     * @throws InvalidMatrixException
      */
-    private void hasValidValues(String token) throws IOException {
-        /* If you can improve, please do */
-        /* Really, really bad way of doing this check */
+    private void hasValidValues(String token) throws InvalidMatrixException {
         try {
             if(!token.equals("*")){
               Integer.parseInt(token);
             }
         } catch (NumberFormatException nfe) {
-             throw new InvalidMatrixException(token + " is not a integer value for matrix computation");
+             throw new InvalidMatrixException(token + " is not a integer value for matrix computation.");
         }
 
     }
@@ -156,8 +159,10 @@ public class ValidMatrixFile {
      * This method checks to see is matrix1 has an equal number of columns to matrix1 number of rows. If
      * this is not the case, then multiplication cannot be executed and an error message will be printed
      * and then it will exit.
+     *
+     * @throws InvalidMatrixException
      */
-    private void isBalanced() throws IOException{
+    private void isBalanced() throws InvalidMatrixException{
         /* if (# of cols in matrix1) != (# of rows in matrix2) ==> CANNOT multiply */
         if (this.matrix1.getCols() != this.matrix2.getRows()) {
             throw new InvalidMatrixException("Mismatched columns and rows between matrices.");
