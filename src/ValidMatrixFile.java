@@ -119,7 +119,7 @@ public class ValidMatrixFile {
      *
      * @throws InvalidMatrixException
      */
-    private void runTests() throws InValidMatrixException{
+    private void runTests() throws InvalidMatrixException{
         checkForTopBotMatrix();
         isBalanced();
     }
